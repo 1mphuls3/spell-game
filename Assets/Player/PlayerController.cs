@@ -106,8 +106,6 @@ public class PlayerController : MonoBehaviour
 
     private void Fire(InputAction.CallbackContext context)
     {
-        if (spellCooldownCount < spellCooldown) return;
-        spellCooldownCount = 0f;
 
         Vector2 position = transform.position;
         Vector2 cursorWorldPos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
@@ -119,6 +117,9 @@ public class PlayerController : MonoBehaviour
         {
             modifier.CalculateStats(definition);
         }
+
+        if (spellCooldownCount < definition.cooldown) return;
+        spellCooldownCount = 0f;
 
         CastContext castContext = new CastContext(gameObject, position, cursorDir * definition.speed);
         definition.spell = spell.GetComponent<SpellInstance>();
