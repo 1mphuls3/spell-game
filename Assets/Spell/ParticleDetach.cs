@@ -16,6 +16,7 @@ public class ParticleDetach : MonoBehaviour
 
     private static IEnumerator DestroyParticleSystem(ParticleSystem particles)
     {
+        // Stop the particles from playing and then destroy them after all of the existing particles die
         particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         while (particles.IsAlive())
         {

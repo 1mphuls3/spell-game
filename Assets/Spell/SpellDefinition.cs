@@ -13,7 +13,7 @@ public class SpellDefinition
     public SpellInstance spell;
     public Texture2D color;
 
-    // Damage calcluation 
+    // Damage calcluation for modifiers
     public float addition;
     public float multiplier = 1f;
     public float finalDamage;

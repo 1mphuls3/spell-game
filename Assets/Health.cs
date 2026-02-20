@@ -32,12 +32,15 @@ public class Health : MonoBehaviour
     {
         currentHealth -= amount;
         StartCoroutine(FlashCoroutine());
+
+        // If the health is 0 or less, "kill" the enemy
         if(currentHealth <= 0)
         {
             gameObject.SetActive(false);
         }
     }
-
+    
+    // Smoothly transition the flash amount from 1 to 0 using the animation curve
     private IEnumerator FlashCoroutine()
     {
         sprite.material.SetColor("_FlashColor", Color.white);

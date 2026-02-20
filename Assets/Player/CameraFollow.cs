@@ -29,11 +29,15 @@ public class CameraFollow : MonoBehaviour
         Vector2 cursorWorldPos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector2 cursorDir = (cursorWorldPos - position).normalized * cursorOffsetDistance;
 
+        // Add the cursor direction to the camera target position
         Vector3 targetPos = new Vector3(position.x + cursorDir.x, position.y + cursorDir.y, offset.z);
 
+        // Get the speed to move the camera toward the target position, move faster the further away the camera
         float distance = Vector3.Distance(transform.position, targetPos);
         float dynamicSpeed = baseSpeed + distance * speedMultiplier;
 
+        // Move the camera position toward teh target position based on the dynamic speed found before
+        // mult by delta time to account for framerate
         transform.position = Vector3.MoveTowards(transform.position, targetPos, dynamicSpeed * Time.deltaTime);
     }
 }

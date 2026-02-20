@@ -62,6 +62,7 @@ public class ViperAI : MonoBehaviour
         }
         else attackTimer = 0f;
 
+        // If the velocity is >= 0.4 in any direction,enable walking animation
         if (Mathf.Abs(rigidBody.linearVelocity.x) >= 0.4f || Mathf.Abs(rigidBody.linearVelocity.y) >= 0.4f)
         {
             spriteAnimator.SetBool("isWalking", true);
@@ -71,6 +72,7 @@ public class ViperAI : MonoBehaviour
             spriteAnimator.SetBool("isWalking", false);
         }
 
+        // If not moving right flip the sprite to face left
         if (rigidBody.linearVelocity.x > 0)
         {
             spriteRenderer.flipX = false;
