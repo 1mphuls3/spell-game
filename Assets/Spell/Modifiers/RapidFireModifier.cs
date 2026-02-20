@@ -11,9 +11,8 @@ public class RapidFireModifier : ModifierDefinition
     public override void CalculateStats(SpellDefinition definition)
     {
         definition.size *= 0.8f;
-        definition.speed *= 1.2f;
-        definition.cooldown *= 0.5f;
-        definition.multiplier *= 0.8f;
+        definition.speed *= 1.1f;
+        definition.cooldown *= 0.8f;
     }
     public override void OnCast(SpellInstance instance)
     {
