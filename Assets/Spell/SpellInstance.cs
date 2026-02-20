@@ -1,36 +1,25 @@
-using NUnit.Framework;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * All code is original work, with Unity Documentation referenced for identifying Unity
+ * specific methods and their correct usage and outputs.
+ */
 public class SpellInstance : MonoBehaviour
 {
     public Collider2D coll2D;
+    public Rigidbody2D rigidBody;
+    public SpriteRenderer spriteRenderer;
 
-    public float damage = 2f;
-    public float speed = 1f;
-    public float cooldown = 0.5f;
-    public float cost = 1f;
-    public float size = 1f;
-
-    public ModifierDefinition[] modifiers;
-    public CastContext context;
-
-    public SpellInstance(CastContext context, SpellDefinition definition)
-    {
-        this.damage = definition.damage;
-        this.speed = definition.speed;
-        this.cost = definition.cost;
-        this.size = definition.size;
-
-        this.context = context;
-        this.modifiers = definition.modifiers;
-    }
-
-    // True if the projectile should be destroyed on collision
-    public bool despawnOnHit = true;
+    public SpellDefinition definition;
+    public List<ModifierDefinition> modifiers;
+    public GameObject caster;
+    
     // Stored count of the number of enemy and terrain collisions the projectile has experienced
     public int terrainCollisionCount = 0;
-    public int enemyCollisionCount = 0;
+    public int livingCollisionCount = 0;
+
+    public float age = 0f;
 
     // Called once the spell projectile is instantiated
     public void OnSpawn()
@@ -49,33 +38,42 @@ public class SpellInstance : MonoBehaviour
         {
             modifier.OnUpdate(this);
         }
-    }
-
-    // Called when the projectile collides with something
-    // Impact mode:
-    //  Enemy = enemy collision
-    //  Terrain = wall/obstacle collision
-    public void OnHitEnemy(HitContext context)
-    {
-        enemyCollisionCount++;
-        foreach (ModifierDefinition modifier in modifiers)
-        {
-            bool shouldDestroy = modifier.OnHitEnemy(this, context);
-        }
-        if (context.despawn)
+        age += Time.deltaTime;
+        if(age > definition.range)
         {
             OnDespawn();
         }
     }
 
+    // Called when the projectile collides with a living entity such as a player or enemy
+    public void OnHitLiving(HitContext context)
+    {
+        GameObject entity = context.hit.gameObject;
+        Health health = entity.GetComponent<Health>();
+        livingCollisionCount++;
+        foreach (ModifierDefinition modifier in modifiers)
+        {
+            modifier.OnHitLiving(this, context);
+        }
+
+        health.Damage(definition.finalDamage);
+
+        if (context.despawn && age > 0.2f)
+        {
+            OnDespawn();
+        }
+    }
+
+    // Called when the projectile collides with terrain such as walls or another nonliving object
     public void OnHitTerrain(HitContext context)
     {
         terrainCollisionCount++;
         foreach (ModifierDefinition modifier in modifiers)
         {
-            bool shouldDestroy = modifier.OnHitTerrain(this, context);
+            modifier.OnHitTerrain(this, context);
         }
-        if (context.despawn)
+
+        if (context.despawn && age > 0.2f)
         {
             OnDespawn();
         }
@@ -94,6 +92,11 @@ public class SpellInstance : MonoBehaviour
 
     private void Start()
     {
+        age = 0f;
+        coll2D = this.gameObject.GetComponent<Collider2D>();
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        rigidBody = this.gameObject.GetComponent<Rigidbody2D>();
+
         this.OnSpawn();
     }
 
@@ -102,17 +105,31 @@ public class SpellInstance : MonoBehaviour
         this.OnUpdate();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        // If the collision is with an object tagged as an enemy, call OnImpact with the Enemy impact mode
-        if(collision.gameObject.CompareTag("Enemy"))
+        if (caster.gameObject.CompareTag("Player"))
         {
-            OnHitEnemy(new HitContext(collision.collider, CollisionType.Enemy));
+            // If the collision is with an object tagged as an enemy, call OnImpact with the Enemy impact mode
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                OnHitLiving(new HitContext(other));
+                return;
+            }
+        }
+        else
+        {
+            // If the collision is with an object tagged as a player, call OnImpact with the Enemy impact mode
+            if (other.gameObject.CompareTag("Player"))
+            {
+                OnHitLiving(new HitContext(other));
+                return;
+            }
         }
         // If the collision is with an object tagged as terrain, call OnImpact with the Terrain impact mode
-        else if (collision.gameObject.CompareTag("Terrain"))
+        if (other.gameObject.CompareTag("Terrain"))
         {
-            OnHitTerrain(new HitContext(collision.collider, CollisionType.Terrain));
+            OnHitTerrain(new HitContext(other));
+            return;
         }
     }
 }
