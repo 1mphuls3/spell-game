@@ -19695,7 +19695,7 @@ TextureImporter:
         serializedVersion: 2
         x: 553
         y: 214
-        width: 6
+        width: 22
         height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -19707,50 +19707,6 @@ TextureImporter:
       bones: []
       spriteID: bd7a12ad3f8894d30800000000000000
       internalID: 4416211490531551195
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UImAGIC_721
-      rect:
-        serializedVersion: 2
-        x: 558
-        y: 214
-        width: 12
-        height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6b8f9b26fd1004650800000000000000
-      internalID: 6214969544716974262
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UImAGIC_722
-      rect:
-        serializedVersion: 2
-        x: 569
-        y: 214
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6e979c6d379775220800000000000000
-      internalID: 2474580058695104998
       vertices: []
       indices: 
       edges: []
