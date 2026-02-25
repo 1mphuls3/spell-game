@@ -21,11 +21,9 @@ public class SplitModifier : ModifierDefinition
 
     public static Vector2 Rotate(Vector2 vec, float deg)
     {
-        float rad = Mathf.Rad2Deg * deg;
-        float sin = Mathf.Sin(rad);
-        float cos = Mathf.Cos(rad);
+        Quaternion rotation = Quaternion.AngleAxis(deg, Vector3.forward);
 
-        return new Vector2(vec.x * cos - vec.y * sin, vec.x * sin + vec.y * cos).normalized * vec.magnitude;
+        return rotation * vec;
     }
 
     public override void OnHitLiving(SpellInstance instance, HitContext context)
@@ -48,9 +46,10 @@ public class SplitModifier : ModifierDefinition
         {
             SpellInstance newSpell = GameObject.Instantiate(instance);
             newSpell.definition = instance.definition;
+            newSpell.definition.size = instance.definition.size / 1.5f;
             Vector2 newVel = Rotate(vel, deg);
             newSpell.transform.position = instance.transform.position + (Vector3)(newVel.normalized * 0.2f);
-            newSpell.rigidBody.linearVelocity = newVel;
+            newSpell.rigidBody.linearVelocity = BounceModifier.ReflectVelocity(other, collider, newVel);
             newSpell.livingCollisionCount = instance.livingCollisionCount;
             newSpell.terrainCollisionCount = instance.terrainCollisionCount;
             deg += 22.5f;
@@ -77,9 +76,10 @@ public class SplitModifier : ModifierDefinition
         {
             SpellInstance newSpell = GameObject.Instantiate(instance);
             newSpell.definition = instance.definition;
+            newSpell.definition.size = instance.definition.size / 1.5f;
             Vector2 newVel = Rotate(vel, deg);
             newSpell.transform.position = instance.transform.position + (Vector3)(newVel.normalized * 0.2f);
-            newSpell.rigidBody.linearVelocity = newVel;
+            newSpell.rigidBody.linearVelocity = BounceModifier.ReflectVelocity(other, collider, newVel);
             newSpell.livingCollisionCount = instance.livingCollisionCount;
             newSpell.terrainCollisionCount = instance.terrainCollisionCount;
             deg += 22.5f;

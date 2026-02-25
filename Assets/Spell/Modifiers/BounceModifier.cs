@@ -18,7 +18,7 @@ public class BounceModifier : ModifierDefinition
     {
     }
 
-    private static Vector2 ReflectVelocity(Collider2D other, Collider2D collider, Vector2 currentVel)
+    public static Vector2 ReflectVelocity(Collider2D other, Collider2D collider, Vector2 currentVel)
     {
         ColliderDistance2D dist = other.Distance(collider);
         Vector2 normal = dist.normal;

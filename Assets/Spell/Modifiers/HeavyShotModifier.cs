@@ -12,7 +12,7 @@ public class HeavyShotModifier : ModifierDefinition
     {
         definition.size *= 1.5f;
         definition.speed *= 0.8f;
-        definition.cooldown *= 1.5f;
+        definition.cooldown *= 2f;
         definition.multiplier *= 1.5f;
     }
     public override void OnCast(SpellInstance instance)

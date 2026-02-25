@@ -10,7 +10,7 @@ public class WaveManager : MonoBehaviour
     public int currentWave = 0;
     void Start()
     {
-        //StartCoroutine(StartWave());
+        StartCoroutine(StartWave());
     }
 
     IEnumerator StartWave()

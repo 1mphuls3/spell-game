@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour
         move.Enable();
         fire = inputManager.Player.Fire;
         fire.Enable();
-        fire.performed += Fire;
         interact = inputManager.Player.Interact;
         interact.Enable();
         interact.performed += Interact;
@@ -101,16 +100,17 @@ public class PlayerController : MonoBehaviour
         {
             spriteRenderer.flipX = true;
         }
+
+        if(fire.IsPressed())
+        {
+            Fire();
+        }
+
         spellCooldownCount += Time.deltaTime;
     }
 
-    private void Fire(InputAction.CallbackContext context)
+    private void Fire()
     {
-
-        Vector2 position = transform.position;
-        Vector2 cursorWorldPos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        Vector2 cursorDir = (cursorWorldPos - position).normalized;
-
         definition = new SpellDefinition(spellDamage, spellSpeed, spellCooldown, 1f, spellSize,
             spellRange, spellManager.modifiers, color);
         foreach (ModifierDefinition modifier in spellManager.modifiers)
@@ -121,7 +121,11 @@ public class PlayerController : MonoBehaviour
         if (spellCooldownCount < definition.cooldown) return;
         spellCooldownCount = 0f;
 
-        CastContext castContext = new CastContext(gameObject, position, cursorDir * definition.speed);
+        Vector2 position = transform.position;
+        Vector2 cursorWorldPos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector2 cursorDir = (cursorWorldPos - position).normalized;
+
+        CastContext castContext = new CastContext(gameObject, position + (rigidBody.linearVelocity.normalized*0.5F), cursorDir * definition.speed);
         definition.spell = spell.GetComponent<SpellInstance>();
 
         StartCoroutine(Attack(definition, castContext));

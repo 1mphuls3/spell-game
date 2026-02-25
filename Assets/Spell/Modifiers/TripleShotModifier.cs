@@ -9,13 +9,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Triple Shot Modifier", menuName = "Modifiers/Triple Shot Modifier")]
 public class TripleShotModifier : ModifierDefinition
 {
+    public override void CalculateStats(SpellDefinition definition)
+    {
+        definition.cooldown *= 1.4f;
+    }
+
     public static Vector2 Rotate(Vector2 vec, float deg)
     {
-        float rad = Mathf.Rad2Deg * deg;
-        float sin = Mathf.Sin(rad);
-        float cos = Mathf.Cos(rad);
+        Quaternion rotation = Quaternion.AngleAxis(deg, Vector3.forward);
 
-        return new Vector2(vec.x * cos - vec.y * sin, vec.x * sin + vec.y * cos).normalized * vec.magnitude;
+        return rotation * vec;
     }
 
     public override void OnCast(SpellInstance instance)

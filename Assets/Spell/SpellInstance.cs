@@ -73,7 +73,7 @@ public class SpellInstance : MonoBehaviour
             modifier.OnHitTerrain(this, context);
         }
 
-        if (context.despawn && age > 0.2f)
+        if (context.despawn)
         {
             OnDespawn();
         }

@@ -35,6 +35,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        Time.timeScale = 1f;
         foreach (Image image in elements)
         {
             image.gameObject.SetActive(false);
@@ -43,9 +44,14 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        Time.timeScale = 0f;
         foreach (Image image in elements)
         {
             image.gameObject.SetActive(true);
         }
+    }
+
+    public void Settings()
+    {
     }
 }

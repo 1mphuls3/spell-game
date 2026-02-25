@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -6,6 +7,7 @@ using UnityEngine;
  */
 public class WaveInstance
 {
+    private List<GameObject> enemies;
     public WaveInstance()
     {
 
