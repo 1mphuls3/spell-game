@@ -104,9 +104,13 @@ public class PlayerController : MonoBehaviour
         if(fire.IsPressed())
         {
             Fire();
+            spriteAnimator.SetBool("isAttacking", true);
+        } else
+        {
+            spriteAnimator.SetBool("isAttacking", false);
         }
 
-        spellCooldownCount += Time.deltaTime;
+            spellCooldownCount += Time.deltaTime;
     }
 
     private void Fire()
@@ -133,11 +137,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Attack(SpellDefinition definition, CastContext context)
     {
-        spriteAnimator.SetBool("isAttacking", true);
         yield return new WaitForSeconds(0.25f);
         definition.Cast(context);
         yield return new WaitForSeconds(0.25f);
-        spriteAnimator.SetBool("isAttacking", false);
     }
 
     private void Pause(InputAction.CallbackContext context)

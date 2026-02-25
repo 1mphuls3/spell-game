@@ -4,7 +4,6 @@ using UnityEngine;
 /*
  * All code is original work, with Unity Documentation referenced for identifying Unity
  * specific methods and their correct usage and outputs.
- * ChatGPT was used only for the Rotate function
  */
 [CreateAssetMenu(fileName = "Split Modifier", menuName = "Modifiers/Split Modifier")]
 public class SplitModifier : ModifierDefinition
@@ -17,13 +16,6 @@ public class SplitModifier : ModifierDefinition
 
     public override void OnDespawn(SpellInstance instance)
     {
-    }
-
-    public static Vector2 Rotate(Vector2 vec, float deg)
-    {
-        Quaternion rotation = Quaternion.AngleAxis(deg, Vector3.forward);
-
-        return rotation * vec;
     }
 
     public override void OnHitLiving(SpellInstance instance, HitContext context)
@@ -47,9 +39,9 @@ public class SplitModifier : ModifierDefinition
             SpellInstance newSpell = GameObject.Instantiate(instance);
             newSpell.definition = instance.definition;
             newSpell.definition.size = instance.definition.size / 1.5f;
-            Vector2 newVel = Rotate(vel, deg);
+            Vector2 newVel = SpellHelper.Rotate(vel, deg);
             newSpell.transform.position = instance.transform.position + (Vector3)(newVel.normalized * 0.2f);
-            newSpell.rigidBody.linearVelocity = BounceModifier.ReflectVelocity(other, collider, newVel);
+            newSpell.rigidBody.linearVelocity = SpellHelper.ReflectVelocity(other, collider, newVel);
             newSpell.livingCollisionCount = instance.livingCollisionCount;
             newSpell.terrainCollisionCount = instance.terrainCollisionCount;
             deg += 22.5f;
@@ -77,9 +69,9 @@ public class SplitModifier : ModifierDefinition
             SpellInstance newSpell = GameObject.Instantiate(instance);
             newSpell.definition = instance.definition;
             newSpell.definition.size = instance.definition.size / 1.5f;
-            Vector2 newVel = Rotate(vel, deg);
+            Vector2 newVel = SpellHelper.Rotate(vel, deg);
             newSpell.transform.position = instance.transform.position + (Vector3)(newVel.normalized * 0.2f);
-            newSpell.rigidBody.linearVelocity = BounceModifier.ReflectVelocity(other, collider, newVel);
+            newSpell.rigidBody.linearVelocity = SpellHelper.ReflectVelocity(other, collider, newVel);
             newSpell.livingCollisionCount = instance.livingCollisionCount;
             newSpell.terrainCollisionCount = instance.terrainCollisionCount;
             deg += 22.5f;
