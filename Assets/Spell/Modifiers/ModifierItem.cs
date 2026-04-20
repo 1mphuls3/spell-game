@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /*
@@ -8,6 +9,7 @@ public class ModifierItem : MonoBehaviour, IInteractable
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     public ModifierDefinition modifier;
+    public event Action OnItemTaken;
 
     void Start()
     {
@@ -25,5 +27,6 @@ public class ModifierItem : MonoBehaviour, IInteractable
         PlayerSpellManager manager = player.GetComponent<PlayerSpellManager>();
         manager.Equip(modifier);
         gameObject.SetActive(false);
+        OnItemTaken?.Invoke();
     }
 }

@@ -12,15 +12,17 @@ using UnityEngine.UIElements;
  */
 public class PlayerController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private Camera cam;
-
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator spriteAnimator;
 
+    [Header("Movement")]
     [SerializeField] private float moveSpeed = 8f;
     [SerializeField] private float acceleration = 80f;
 
+    [Header("Spell")]
     [SerializeField] private PlayerSpellManager spellManager;
     [SerializeField] private GameObject spell;
     public SpellDefinition definition;
@@ -40,6 +42,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private PauseMenu pauseMenu;
     private InputAction pause;
+
+    [SerializeField] private PlayerAudioManager audioManager;
 
     private IInteractable currentInteractable;
     private void Awake()
@@ -110,7 +114,7 @@ public class PlayerController : MonoBehaviour
             spriteAnimator.SetBool("isAttacking", false);
         }
 
-            spellCooldownCount += Time.deltaTime;
+        spellCooldownCount += Time.deltaTime;
     }
 
     private void Fire()
@@ -138,6 +142,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Attack(SpellDefinition definition, CastContext context)
     {
         yield return new WaitForSeconds(0.25f);
+        audioManager.PlayShoot();
         definition.Cast(context);
         yield return new WaitForSeconds(0.25f);
     }

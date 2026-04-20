@@ -9,12 +9,12 @@ using UnityEngine.UI;
  */
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] private Image[] elements;
+    [SerializeField] private GameObject[] elements;
     private void Awake()
     {
-        foreach (Image image in elements)
+        foreach (var element in elements)
         {
-            image.gameObject.SetActive(false);
+            element.SetActive(false);
         }
     }
 
@@ -36,18 +36,18 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         Time.timeScale = 1f;
-        foreach (Image image in elements)
+        foreach (var element in elements)
         {
-            image.gameObject.SetActive(false);
+            element.SetActive(false);
         }
     }
 
     public void Pause()
     {
         Time.timeScale = 0f;
-        foreach (Image image in elements)
+        foreach (var element in elements)
         {
-            image.gameObject.SetActive(true);
+            element.SetActive(true);
         }
     }
 

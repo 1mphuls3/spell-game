@@ -33,6 +33,9 @@ public class HomingModifier : ModifierDefinition
     public override void OnUpdate(SpellInstance instance)
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        if (enemies.Length <= 0) return;
+
         GameObject nearestEnemy = enemies[0];
 
         float minDist = float.MaxValue;

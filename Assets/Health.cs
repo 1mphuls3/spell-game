@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Linq;
+using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  * All code is original work, with Unity Documentation referenced for identifying Unity
@@ -14,8 +17,11 @@ public class Health : MonoBehaviour
     public float currentHealth = 100f;
     public float maxHealth = 100f;
 
+    private WaveManager manager;
+
     void Start()
     {
+        manager = FindObjectsByType<WaveManager>().First();
         currentHealth = maxHealth;    
     }
 
@@ -36,7 +42,15 @@ public class Health : MonoBehaviour
         // If the health is 0 or less, "kill" the enemy
         if(currentHealth <= 0)
         {
-            gameObject.SetActive(false);
+            if (!gameObject.CompareTag("Player"))
+            {
+                manager.OnEnemyDeath(gameObject);
+                Destroy(gameObject);
+            }
+            else
+            {
+                SceneManager.LoadScene(0);
+            }
         }
     }
     

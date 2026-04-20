@@ -11,12 +11,12 @@ public class ChestOpen : MonoBehaviour
 {
     [SerializeField] private Animator spriteAnimator;
     [SerializeField] private List<ModifierDefinition> modifiersList;
-    [SerializeField] private ModifierItem item;
+    [SerializeField] public ModifierItem item;
 
     private ModifierDefinition modifier;
-    private bool isOpen = false;
+    public bool isOpen = false;
 
-    private void OnEnable()
+    private void Start()
     {
         modifier = modifiersList[Random.Range(0, modifiersList.Count)];
     }
