@@ -429,9 +429,9 @@ MonoBehaviour:
   spriteAnimator: {fileID: 2441466740703150704}
   spriteRenderer: {fileID: 3162448953673746214}
   health: {fileID: 469692328610013404}
-  moveSpeed: 2
+  moveSpeed: 2.5
   acceleration: 10
-  attackRange: 3
+  attackRange: 2
   detectRange: 8
   distanceToPlayer: 0
   directionToPlayer: {x: 0, y: 0}

@@ -8,8 +8,7 @@ public class MeleeDamage : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController player = collision.GetComponent<PlayerController>();
-            Health playerHealth = player.GetComponent<Health>();
+            Health playerHealth = collision.gameObject.GetComponent<Health>();
 
             playerHealth.Damage(data.damage);
         }
